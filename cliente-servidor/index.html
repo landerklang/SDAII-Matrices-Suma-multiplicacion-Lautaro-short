@@ -147,20 +147,40 @@
     crearmatriz();
 
     async function enviarMatrices() {
-      let matriz1 = document.querySelectorAll("#matriz-1 div");
-      let matriz2 = document.querySelectorAll("#matriz-2 div");
+      let filasM1 = document.querySelectorAll("#matriz-1 div");
+      let filasM2 = document.querySelectorAll("#matriz-2 div");
+
+      let matriz1 = [];
+      let matriz2 = [];
+
+      // Construir matriz 1
+      for (let i = 0; i < filas; i++) {
+        let fila = [];
+
+        for (let j = 0; j < columnas; j++) {
+          let valor = parseInt(filasM1[i].children[j].value) || 0;
+          fila.push(valor);
+        }
+
+        matriz1.push(fila);
+      }
+
+      // Construir matriz 2
+      for (let i = 0; i < filas; i++) {
+        let fila = [];
+
+        for (let j = 0; j < columnas; j++) {
+          let valor = parseInt(filasM2[i].children[j].value) || 0;
+          fila.push(valor);
+        }
+
+        matriz2.push(fila);
+      }
+
       const datos = {
         matriz1,
         matriz2,
-        // matriz1: [
-        //   [1, 2],
-        //   [3, 4],
-        // ],
-        // matriz2: [
-        //   [5, 6],
-        //   [7, 8],
-        // ],
-        operacion: "suma",
+        operacion: res == "1" ? "suma" : "multiplicacion",
       };
 
       const respuesta = await fetch("http://localhost:3000/calcular", {
@@ -171,9 +191,33 @@
         body: JSON.stringify(datos),
       });
 
-      const resultado = await respuesta.json();
+      const respuestaServidor = await respuesta.json();
 
-      console.log(resultado);
+      console.log(respuestaServidor);
+
+      mostrarResultado(respuestaServidor.resultado);
+    }
+    function mostrarResultado(matriz) {
+      let resultado = document.getElementById("resultado");
+      resultado.innerHTML = "";
+
+      for (let i = 0; i < matriz.length; i++) {
+        let filaDiv = document.createElement("div");
+
+        for (let j = 0; j < matriz[i].length; j++) {
+          let input = document.createElement("input");
+
+          input.type = "number";
+          input.value = matriz[i][j];
+          input.readOnly = true;
+          input.style.width = "50px";
+          input.style.margin = "5px";
+
+          filaDiv.appendChild(input);
+        }
+
+        resultado.appendChild(filaDiv);
+      }
     }
   </script>
 </html>
