@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="" />
     <title>Document</title>
   </head>
   <body>
@@ -16,7 +16,7 @@
       <div>=</div>
       <div id="resultado"></div>
     </div>
-    <button onclick="generarResultado()">crear la matriz resultado</button>
+    <button onclick="enviarMatrices()">crear la matriz resultado</button>
   </body>
   <script>
     let res = "1";
@@ -146,7 +146,34 @@
 
     crearmatriz();
 
-    // function suma_matrices(A:B:){}
-    // crearmatriz();
+    async function enviarMatrices() {
+      let matriz1 = document.querySelectorAll("#matriz-1 div");
+      let matriz2 = document.querySelectorAll("#matriz-2 div");
+      const datos = {
+        matriz1,
+        matriz2,
+        // matriz1: [
+        //   [1, 2],
+        //   [3, 4],
+        // ],
+        // matriz2: [
+        //   [5, 6],
+        //   [7, 8],
+        // ],
+        operacion: "suma",
+      };
+
+      const respuesta = await fetch("http://localhost:3000/calcular", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datos),
+      });
+
+      const resultado = await respuesta.json();
+
+      console.log(resultado);
+    }
   </script>
 </html>
