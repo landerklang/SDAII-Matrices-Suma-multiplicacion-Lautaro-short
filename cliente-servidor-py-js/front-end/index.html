@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 id="columna"></h1>
+    <h2 id="fila"></h2>
+    <div id="contenedor-principal">
+      <div id="matriz-1"></div>
+      <div id="funcion"></div>
+      <div id="matriz-2"></div>
+      <div>=</div>
+      <div id="resultado"></div>
+    </div>
+    <button onclick="generarResultado()">crear la matriz resultado</button>
+  </body>
+  <script>
+    let res = "1";
+
+    res = prompt(
+      "Que función desea efectuar con las matrices \n 1.suma de matrices \n 2.multiplicación de matrices",
+    );
+
+    while (res != "1" && res != "2") {
+      alert("responda con 1 o con 2");
+      res = prompt(
+        "Que función desea efectuar con las matrices \n 1.suma de matrices \n 2.multiplicación de matrices",
+      );
+    }
+
+    if (res == "1") {
+      document.getElementById("funcion").textContent = "+";
+    } else {
+      document.getElementById("funcion").textContent = "*";
+    }
+
+    let columnas = parseInt(prompt("Ingrese la cantidad de columnas"));
+    let filas = parseInt(prompt("Ingrese la cantidad de filas"));
+
+    document.getElementById("columna").textContent =
+      `La cantidad de columnas es ${columnas}`;
+
+    document.getElementById("fila").textContent =
+      `La cantidad de filas es ${filas}`;
+
+    function crearmatriz() {
+      let contenedor1 = document.getElementById("matriz-1");
+      let contenedor2 = document.getElementById("matriz-2");
+
+      contenedor1.innerHTML = "";
+      contenedor2.innerHTML = "";
+
+      for (let i = 0; i < filas; i++) {
+        let fila1 = document.createElement("div");
+        let fila2 = document.createElement("div");
+
+        for (let j = 0; j < columnas; j++) {
+          let input1 = document.createElement("input");
+          let input2 = document.createElement("input");
+
+          input1.type = "number";
+          input2.type = "number";
+
+          input1.style.width = "50px";
+          input2.style.width = "50px";
+
+          input1.style.margin = "5px";
+          input2.style.margin = "5px";
+
+          fila1.appendChild(input1);
+          fila2.appendChild(input2);
+        }
+
+        contenedor1.appendChild(fila1);
+        contenedor2.appendChild(fila2);
+      }
+    }
+
+    function generarResultado() {
+      let resultado = document.getElementById("resultado");
+      resultado.innerHTML = "";
+
+      let filasM1 = document.querySelectorAll("#matriz-1 div");
+      let filasM2 = document.querySelectorAll("#matriz-2 div");
+
+      for (let i = 0; i < filas; i++) {
+        let nuevaFila = document.createElement("div");
+
+        for (let j = 0; j < columnas; j++) {
+          let valor1 = parseInt(filasM1[i].children[j].value) || 0;
+          let valor2 = parseInt(filasM2[i].children[j].value) || 0;
+
+          let resultadoValor;
+
+          if (res == "1") {
+            resultadoValor = valor1 + valor2;
+          } else {
+            resultado.innerHTML = "";
+
+            for (let i = 0; i < filas; i++) {
+              let nuevaFila = document.createElement("div");
+
+              for (let j = 0; j < columnas; j++) {
+                let suma = 0;
+
+                for (let k = 0; k < columnas; k++) {
+                  let valor1 = parseInt(filasM1[i].children[k].value) || 0;
+                  let valor2 = parseInt(filasM2[k].children[j].value) || 0;
+
+                  suma += valor1 * valor2;
+                }
+
+                let inputResultado = document.createElement("input");
+                inputResultado.type = "number";
+                inputResultado.value = suma;
+                inputResultado.readOnly = true;
+                inputResultado.style.width = "50px";
+                inputResultado.style.margin = "5px";
+
+                nuevaFila.appendChild(inputResultado);
+              }
+
+              resultado.appendChild(nuevaFila);
+            }
+
+            return;
+          }
+
+          let inputResultado = document.createElement("input");
+          inputResultado.type = "number";
+          inputResultado.value = resultadoValor;
+          inputResultado.readOnly = true;
+          inputResultado.style.width = "50px";
+          inputResultado.style.margin = "5px";
+
+          nuevaFila.appendChild(inputResultado);
+        }
+
+        resultado.appendChild(nuevaFila);
+      }
+    }
+
+    crearmatriz();
+  </script>
+</html>
