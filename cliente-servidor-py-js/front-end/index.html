@@ -41,6 +41,19 @@
     let columnas = parseInt(prompt("Ingrese la cantidad de columnas"));
     let filas = parseInt(prompt("Ingrese la cantidad de filas"));
 
+    if (res == 1 && columnas != filas) {
+      alert(
+        "Para poder sumar las matrices, tiene que tener la misma dimencion porfavor vuelva a escribir las dimenciones",
+      );
+      let columnas = parseInt(prompt("Ingrese la cantidad de columnas"));
+      let filas = parseInt(prompt("Ingrese la cantidad de filas"));
+    }
+    if (res == 2 && columnas != filas) {
+      alert(
+        "Para poder multiplicar las matrices, tiene que ser iguales las columnas de la primera matris con la fila de la segunda",
+      );
+    }
+
     document.getElementById("columna").textContent =
       `La cantidad de columnas es ${columnas}`;
 
